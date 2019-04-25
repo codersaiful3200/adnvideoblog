@@ -2,54 +2,59 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\UserRegRcrg;
+use App\Http\Resources\LoginResc;
 use App\UserReg;
 use Illuminate\Http\Request;
 
-class UserRegCtrl extends Controller
+class LoginCtrl extends Controller
 {
 
     public function index()
     {
-
-       return UserRegRcrg::collection(UserReg::paginate(2));
+        //
     }
+
 
     public function create()
     {
         //
     }
 
+
     public function store(Request $request)
     {
 
-        $userReg = new UserReg();
-        $userReg->username = $request->username;
-        $userReg->mobile = $request->mobile;
-        $userReg->email = $request->email;
+        $mobile = $request->mobile;
+        $password = $request->password;
 
-        
-        if ($userReg->save()) {
-            return "success";
+        $result = UserReg::where('mobile', $mobile)->where('password', $password)->get();
+
+        if ($result) {
+            return LoginResc::collection($result);
         } else {
-            return 'fail';
+            return 2;
         }
+
     }
+
 
     public function show($id)
     {
-
+        //
     }
+
 
     public function edit($id)
     {
         //
     }
 
+
     public function update(Request $request, $id)
     {
         //
     }
+
 
     public function destroy($id)
     {
